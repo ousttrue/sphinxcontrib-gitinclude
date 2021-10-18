@@ -3,7 +3,7 @@
 `literalinclude` from git repository.
 using `git cat-file -p {rev}:{path_to_file}`
 
-## pypi
+## install
 
 ```
 pip install gitinclude
@@ -32,3 +32,5 @@ extensions = [
 py -m build
 twine upload dist/*
 ```
+
+[Github Actions 使ったらPypiへのリリースがめちゃくちゃ楽になった](https://qiita.com/th4inf/items/d9e575095d35f8f6720e)
