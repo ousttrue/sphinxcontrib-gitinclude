@@ -1,0 +1,28 @@
+name: Sphinx
+
+on:
+  workflow_run:
+    workflows: ["pypi_upload"]
+    branches: [main]
+    types: 
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    steps:
+      - uses: actions/checkout@v1
+      - run: pip install sphinx
+      - run: pip install myst-parser
+      - run: pip install sphinx-rtd-theme
+      - run: pip install gitinclude
+      - name: sphinx build
+        working-directory: ./docs
+        run: sphinx-build . ../public
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

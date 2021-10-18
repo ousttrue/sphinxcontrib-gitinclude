@@ -1,4 +1,4 @@
-name: Upload pypi package release
+name: pypi_upload
 
 on:
   # Trigger the workflow on push or pull request,
