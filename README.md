@@ -3,6 +3,12 @@
 `literalinclude` from git repository.
 using `git cat-file -p {rev}:{path_to_file}`
 
+## pypi
+
+```
+pip install gitinclude
+```
+
 ## Sample
 
 `conf.py`
@@ -18,4 +24,11 @@ extensions = [
 :language: python
 :linenos:
 ``
+```
+
+## upload
+
+```
+py -m build
+twine upload dist/*
 ```
