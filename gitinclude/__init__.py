@@ -1,6 +1,7 @@
 '''
 Based on `site-packages/sphinx/directives/code.py`
 '''
+__version__ = '0.1.1'
 
 import sys
 import pathlib
