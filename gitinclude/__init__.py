@@ -1,10 +1,6 @@
 '''
 Based on `site-packages/sphinx/directives/code.py`
 '''
-__license__ = 'MIT'
-__author__ = 'ousttrue@gmail.com'
-__version__ = '0.1.0'
-__url__ = 'https://github.com/ousttrue/sphinxcontrib-git_include'
 
 import sys
 import pathlib
@@ -365,8 +361,7 @@ class GitInclude(SphinxDirective):
             location = self.state_machine.get_source_and_line(self.lineno)
             rev, filename = self.arguments[0].split(maxsplit=1)
             self.env.note_dependency(filename)
-            reader = GitIncludeReader(rev, filename, self.options,
-                                      self.config)
+            reader = GitIncludeReader(rev, filename, self.options, self.config)
             text, lines = reader.read(location=location)
 
             retnode: Element = nodes.literal_block(text, text, source=filename)
