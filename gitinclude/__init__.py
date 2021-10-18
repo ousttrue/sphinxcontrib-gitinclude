@@ -1,5 +1,5 @@
 '''
-Remodeling based on `site-packages\sphinx\directives\code.py`
+Based on `site-packages/sphinx/directives/code.py`
 '''
 __license__ = 'MIT'
 __author__ = 'ousttrue@gmail.com'
@@ -7,6 +7,8 @@ __version__ = '0.1.0'
 __url__ = 'https://github.com/ousttrue/sphinxcontrib-git_include'
 
 import sys
+import pathlib
+import subprocess
 import textwrap
 from difflib import unified_diff
 from typing import TYPE_CHECKING, Any, Dict, List, Tuple
@@ -90,7 +92,9 @@ class GitIncludeReader:
         ('diff', 'end-at'),
     ]
 
-    def __init__(self, filename: str, options: Dict, config: Config) -> None:
+    def __init__(self, rev: str, filename: str, options: Dict,
+                 config: Config) -> None:
+        self.rev = rev
         self.filename = filename
         self.options = options
         self.encoding = options.get('encoding', config.source_encoding)
@@ -108,13 +112,16 @@ class GitIncludeReader:
     def read_file(self,
                   filename: str,
                   location: Tuple[str, int] = None) -> List[str]:
+        target = f'{self.rev}:{self.filename}'
         try:
-            with open(filename, encoding=self.encoding, errors='strict') as f:
-                text = f.read()
-                if 'tab-width' in self.options:
-                    text = text.expandtabs(self.options['tab-width'])
+            text = subprocess.check_output(f'git cat-file -p {target}')
+            if not text:
+                return []
+            text = text.decode('utf-8')
+            if 'tab-width' in self.options:
+                text = text.expandtabs(self.options['tab-width'])
 
-                return text.splitlines(True)
+            return text.splitlines(True)
         except OSError as exc:
             raise OSError(
                 __('Include file %r not found or reading it failed') %
@@ -124,6 +131,8 @@ class GitIncludeReader:
                 __('Encoding %r used for reading included file %r seems to '
                    'be wrong, try giving an :encoding: option') %
                 (self.encoding, filename)) from exc
+        except subprocess.CalledProcessError as exc:
+            raise Exception(f'error git: {target}')
 
     def read(self, location: Tuple[str, int] = None) -> Tuple[str, int]:
         if 'diff' in self.options:
@@ -289,6 +298,22 @@ class GitIncludeReader:
             return lines
 
 
+def get_repo(src: str):
+    c = pathlib.Path(src)
+    while True:
+        if (c / '.git').is_dir():
+            return c
+        if c == c.parent:
+            break
+        c = c.parent
+
+
+def git_path(src: str, document: str):
+    repo = get_repo(document)
+    if repo:
+        return pathlib.Path(src).relative_to(repo)
+
+
 class GitInclude(SphinxDirective):
     """
     Like ``.. include:: :literal:``, but only warns if the include file is
@@ -333,15 +358,15 @@ class GitInclude(SphinxDirective):
             ]
         # convert options['diff'] to absolute path
         if 'diff' in self.options:
-            _, path = self.env.relfn2path(self.options['diff'])
-            self.options['diff'] = path
+            _, filename = self.env.relfn2path(self.options['diff'])
+            self.options['diff'] = filename
 
         try:
             location = self.state_machine.get_source_and_line(self.lineno)
-            rel_filename, filename = self.env.relfn2path(self.arguments[0])
-            self.env.note_dependency(rel_filename)
-
-            reader = GitIncludeReader(filename, self.options, self.config)
+            rev, filename = self.arguments[0].split(maxsplit=1)
+            self.env.note_dependency(filename)
+            reader = GitIncludeReader(rev, filename, self.options,
+                                      self.config)
             text, lines = reader.read(location=location)
 
             retnode: Element = nodes.literal_block(text, text, source=filename)
