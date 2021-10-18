@@ -1,9 +1,9 @@
 '''
 Based on `site-packages/sphinx/directives/code.py`
 '''
-__version__ = '0.2.0'
 
-import sys
+from ._version import __version__
+
 import pathlib
 import subprocess
 import textwrap
