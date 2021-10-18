@@ -22,11 +22,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pipenv
-          pip install wheel
+          pip install build
       - name: Build
         run: |
-          python3 setup.py sdist --formats=zip
+          python3 -m build
       - name: Publish a Python distribution to PyPI
         if: startsWith(github.event.ref, 'refs/tags') || github.event_name == 'release'
         uses: pypa/gh-action-pypi-publish@master
