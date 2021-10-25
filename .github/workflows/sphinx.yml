@@ -21,9 +21,7 @@ jobs:
       - run: pip install sphinx-rtd-theme
       - run: sudo apt install git
       - run: pip install gitinclude
-      - name: sphinx build
-        working-directory: ./docs
-        run: sphinx-build . ../public
+      - run: sphinx-build ./docs ./public
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
