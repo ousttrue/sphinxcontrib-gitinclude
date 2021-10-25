@@ -5,12 +5,17 @@
 
 # gitinclude
 
-```{toctree}
-:maxdepth: 2
-:caption: Contents
+## sample
+
+### Sphinx: conf.py
+
+```py
+extensions = [
+    "gitinclude",
+]
 ```
 
-## sample
+### Sample
 
 ```
 ``{gitinclude} HEAD README.md
@@ -28,12 +33,14 @@
 ``{gitinclude} HEAD gitinclude/__init__.py
 :language: python
 :linenos:
+:lines: 109-117
 ``
 ```
 
 ```{gitinclude} HEAD gitinclude/__init__.py
 :language: python
 :linenos:
+:lines: 109-117
 ```
 
 ## Indices and tables

@@ -12,7 +12,11 @@ using `git cat-file -p {rev}:{path_to_file}`
 > pip install gitinclude
 ```
 
-## Sphinx: conf.py
+## Sample 
+
+<https://ousttrue.github.io/sphinxcontrib-gitinclude/>
+
+### Sphinx: conf.py
 
 ```py
 extensions = [
@@ -20,7 +24,7 @@ extensions = [
 ]
 ```
 
-## Sphinx: usage
+### Sphinx: usage
 
 `myst`
 
