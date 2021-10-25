@@ -43,6 +43,12 @@ extensions = [
 :lines: 109-117
 ```
 
+## error
+```{gitinclude} HEAD xxx.py
+:language: python
+:linenos:
+```
+
 ## Indices and tables
 * {ref}`genindex`
 * {ref}`modindex`

@@ -119,10 +119,6 @@ class GitIncludeReader:
                 text = text.expandtabs(self.options['tab-width'])
 
             return text.splitlines(True)
-        except OSError as exc:
-            raise OSError(
-                __('Include file %r not found or reading it failed') %
-                filename) from exc
         except UnicodeError as exc:
             raise UnicodeError(
                 __('Encoding %r used for reading included file %r seems to '
