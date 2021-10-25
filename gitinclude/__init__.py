@@ -111,7 +111,7 @@ class GitIncludeReader:
                   location: Tuple[str, int] = None) -> List[str]:
         target = f'{self.rev}:{self.filename}'
         try:
-            text = subprocess.check_output(f'git cat-file -p {target}')
+            text = subprocess.check_output(f'git show {target}')
             if not text:
                 return []
             text = text.decode('utf-8')

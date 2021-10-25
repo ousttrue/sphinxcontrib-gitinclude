@@ -4,7 +4,8 @@
 
 `literalinclude` from git repository.
 
-using `git cat-file -p {rev}:{path_to_file}`
+* using ~~`git cat-file -p {rev}:{path_to_file}`~~
+* using `git show {rev}:{path_to_file}`
 
 ## install
 
