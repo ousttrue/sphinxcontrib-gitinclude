@@ -1,6 +1,6 @@
 # sphinxcontrib-git_include
 
-<https://github.com/ousttrue/sphinxcontrib-git_include>
+<https://pypi.org/project/gitinclude/>
 
 `literalinclude` from git repository.
 
