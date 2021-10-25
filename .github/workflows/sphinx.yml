@@ -19,6 +19,7 @@ jobs:
       - run: pip install sphinx
       - run: pip install myst-parser
       - run: pip install sphinx-rtd-theme
+      - run: sudo apt install git
       - run: pip install gitinclude
       - name: sphinx build
         working-directory: ./docs
