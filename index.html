@@ -52,11 +52,61 @@
 ``
 </pre></div>
 </div>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="lineno"> 1 </span># sphinxcontrib-git_include
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span>&lt;https://pypi.org/project/gitinclude/&gt;
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span>`literalinclude` from git repository.
+<span class="lineno"> 6 </span>
+<span class="lineno"> 7 </span>* using ~~`git cat-file -p {rev}:{path_to_file}`~~
+<span class="lineno"> 8 </span>* using `git show {rev}:{path_to_file}`
+<span class="lineno"> 9 </span>
+<span class="lineno">10 </span>## install
+<span class="lineno">11 </span>
+<span class="lineno">12 </span>```
+<span class="lineno">13 </span>&gt; pip install gitinclude
+<span class="lineno">14 </span>```
+<span class="lineno">15 </span>
+<span class="lineno">16 </span>## Sample 
+<span class="lineno">17 </span>
+<span class="lineno">18 </span>&lt;https://ousttrue.github.io/sphinxcontrib-gitinclude/&gt;
+<span class="lineno">19 </span>
+<span class="lineno">20 </span>### Sphinx: conf.py
+<span class="lineno">21 </span>
+<span class="lineno">22 </span>```py
+<span class="lineno">23 </span>extensions = [
+<span class="lineno">24 </span>    &quot;gitinclude&quot;,
+<span class="lineno">25 </span>]
+<span class="lineno">26 </span>```
+<span class="lineno">27 </span>
+<span class="lineno">28 </span>### Sphinx: usage
+<span class="lineno">29 </span>
+<span class="lineno">30 </span>`myst`
+<span class="lineno">31 </span>
+<span class="lineno">32 </span>```
+<span class="lineno">33 </span>``{gitinclude} HEAD^ gitinclude/__init__.py
+<span class="lineno">34 </span>:language: python
+<span class="lineno">35 </span>:linenos:
+<span class="lineno">36 </span>``
+<span class="lineno">37 </span>```
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``{gitinclude} HEAD gitinclude/__init__.py
 :language: python
 :linenos:
 :lines: 109-117
 ``
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="lineno">1 </span>    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<span class="lineno">2 </span>                  <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="lineno">3 </span>                  <span class="n">location</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="lineno">4 </span>        <span class="n">target</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{self.rev}:{self.filename}&#39;</span>
+<span class="lineno">5 </span>        <span class="k">try</span><span class="p">:</span>
+<span class="lineno">6 </span>            <span class="n">text</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+<span class="lineno">7 </span>            <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+<span class="lineno">8 </span>                <span class="k">return</span> <span class="p">[]</span>
+<span class="lineno">9 </span>            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
